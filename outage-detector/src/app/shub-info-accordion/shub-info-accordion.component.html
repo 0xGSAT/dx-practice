@@ -1,0 +1,70 @@
+<div class="accordion">
+    <div *ngFor="let item of data; let i = index" class="card">
+      <div class="card-header" [id]="'heading' + i">
+        <h2>
+          <button class="btn btn-link accordion-btn" type="button" data-toggle="collapse" [attr.data-target]="'#collapse' + i"  [attr.aria-expanded]="i === 0 ? 'true' : 'false'" [attr.aria-controls]="'collapse' + i" 
+          (click)="toggleCollapse('collapse'+ i)" [attr.aria-expanded]="isCollapsed('collapse'+i) ? 'true' : 'false'" [attr.aria-controls]="'collapse'+i">
+            <div class="card-body"> 
+                <table class="table">
+                  <thead>
+                    <tr>
+                        <th id="table-col-headers">PHUB</th>
+                        <th id="table-col-headers">Reports</th>
+                        <th id="table-col-headers">First</th>
+                        <th id="table-col-headers">Latest</th>
+                        <th id="table-col-headers">Expiry</th>
+                        <th id="table-col-headers">Ticket</th>
+                        <th id="table-col-headers">Ticket Status</th>
+                        <th id="table-col-headers">Severity</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                        <td id="table-data">{{ item.phub }}</td>
+                        <td id="table-data">{{ item.reports }}</td>
+                        <td id="table-data">{{ item.first }}</td>
+                        <td id="table-data">{{ item.latest }}</td>
+                        <td id="table-data">{{ item.expiry }}</td>
+                        <td id="table-data">{{ item.ticket }}</td>
+                        <td id="table-data">{{ item.ticketStatus }}</td>
+                        <td style="text-align:-webkit-center; "><div class="status-circle" [ngClass]="{
+                            'low': item.severity === 'low',
+                            'medium': item.severity === 'medium',
+                            'high': item.severity === 'high',
+                            'severe': item.severity === 'severe'
+                          }"></div></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+          </button>
+        </h2>
+      </div>
+  
+      <div [id]="'collapse' + i" [ngClass]="{'collapse': isCollapsed('collapse'+i), 'show': !isCollapsed('collapse'+i)}" [attr.aria-labelledby]="'heading' + i" >
+        <div class="card-body">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Sub Scc Id</th>
+                <th>Reported</th>
+                <th>Notification</th>
+                <th>Ticket</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let outage of item.outageDetails;">
+                <td>{{ outage.subAccountId}}</td>
+                <td>{{ outage.reported}}</td>
+                <td style="padding-left: 4%;"> <span *ngIf="outage.notification">&#10004;</span>
+                    <span *ngIf="!outage.notification">&#10008;</span>
+                </td>
+                <td>{{ outage.ticket}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+</div>
+  
